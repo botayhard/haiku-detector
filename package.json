@@ -6,6 +6,6 @@
   "license": "MIT",
   "dependencies": {
     "syllables-ru": "^1.1.0",
-    "vk-io": "^4.1.2"
+    "telegraf": "^4.0.3"
   }
 }

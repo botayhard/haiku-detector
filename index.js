@@ -1,19 +1,24 @@
-import { VK } from 'vk-io'
+import { Telegraf } from 'telegraf'
 import { getHaiku } from './detector.js'
 import { token } from './config.js'
 
-const vk = new VK({ token })
+const app = new Telegraf(token)
 
-vk.updates.on('message_new', async (ctx) => {
-  if (!ctx.hasText) return
-
-  const haiku = getHaiku(ctx.text)
-  if (!haiku) return
-
-  const [user] = await vk.api.users.get({ user_ids: ctx.senderId })
-  const suffix = `-- ${user.first_name} ${user.last_name}`
-
-  ctx.send(`${haiku}\n\n${suffix}`)
+app.command('start', (ctx) => {
+   ctx.reply('Welcome!')
 })
 
-vk.updates.start()
+app.on('text', async (ctx) => {
+
+  const haiku = getHaiku(ctx.message.text)
+  if (!haiku) return
+
+  const first_name = ctx.message.from.first_name
+  const last_name = ctx.message.from.last_name
+  const suffix = `-- ${first_name} ${last_name}`
+
+  ctx.reply(`${haiku}\n\n${suffix}`)
+
+})
+
+app.startPolling()
