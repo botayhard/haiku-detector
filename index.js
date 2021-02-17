@@ -15,7 +15,11 @@ app.on('text', async (ctx) => {
 
   const first_name = ctx.message.from.first_name
   const last_name = ctx.message.from.last_name
-  const suffix = `-- ${first_name} ${last_name}`
+  let suffix = `-- ${first_name}`
+  if (typeof last_name !== 'undefined'){
+    suffix = suffix + ' ' + last_name
+  }
+
 
   ctx.reply(`${haiku}\n\n${suffix}`)
 
